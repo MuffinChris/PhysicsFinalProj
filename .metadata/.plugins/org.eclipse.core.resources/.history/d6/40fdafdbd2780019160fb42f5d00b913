@@ -1,0 +1,12 @@
+
+public abstract class AbstractTest implements Glowing {
+
+	public void dest() {
+		System.out.println("moo");
+	}
+	
+	public void destroy() {
+		System.out.println("cow");
+	}
+	
+}

@@ -1,0 +1,12 @@
+import java.util.ArrayList;
+
+public class APCompSciStuff {
+
+	public static void main(String args[]) {
+		Glowing.destroy();
+		Glowing turt = new Turtle();
+		System.out.println(Glowing.lives);
+		AbstractTest.tott();
+	}
+	
+}

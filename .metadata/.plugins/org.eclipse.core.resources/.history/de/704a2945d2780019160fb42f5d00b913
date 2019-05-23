@@ -1,0 +1,12 @@
+
+public interface Glowing {
+
+	public static int lives = 10;
+	public static final int cows = 15;
+	
+	public static void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

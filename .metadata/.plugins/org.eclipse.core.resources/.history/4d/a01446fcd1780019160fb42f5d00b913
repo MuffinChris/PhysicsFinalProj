@@ -1,0 +1,8 @@
+
+public class Turtle implements Glowing{
+
+	public void squek() {
+		System.out.println("squa");
+	}
+	
+}

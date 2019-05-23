@@ -1,0 +1,15 @@
+import java.util.ArrayList;
+
+public class APCompSciStuff {
+
+	public static void main(String args[]) {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("hi");
+		list.add("bye");
+		System.out.println(list.set(0, "bi"));
+		System.out.println(list.remove(0));
+		System.out.println(list.add("bit"));
+		//System.out.println(list.add(2, "bit2"));
+	}
+	
+}

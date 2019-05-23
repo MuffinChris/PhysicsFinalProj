@@ -1,0 +1,12 @@
+import java.util.ArrayList;
+
+public class APCompSciStuff {
+
+	public static void main(String args[]) {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("hi");
+		list.add("bye");
+		System.out.println(list.set(0, "bi"));
+	}
+	
+}
