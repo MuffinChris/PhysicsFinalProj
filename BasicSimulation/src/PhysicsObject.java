@@ -207,8 +207,8 @@ public class PhysicsObject extends Shape{
 					double vby = o.getVelocity().getYR();
 					getVelocity().setXR(((ma - mb)/(ma+mb)) * va + ((2 * mb * vb)/(ma + mb)));
 					o.getVelocity().setXR(((va * 2 * ma)/(ma+mb)) + (((ma-mb) * vb)/(ma + mb)));
-					getVelocity().setXR(((ma - mb)/(ma+mb)) * vay + ((2 * mb * vby)/(ma + mb)));
-					o.getVelocity().setXR(((vay * 2 * ma)/(ma+mb)) + (((ma-mb) * vby)/(ma + mb)));
+					getVelocity().setYR(((ma - mb)/(ma+mb)) * vay + ((2 * mb * vby)/(ma + mb)));
+					o.getVelocity().setYR(((vay * 2 * ma)/(ma+mb)) + (((ma-mb) * vby)/(ma + mb)));
 					double deltaXP = getMomentum().getXR();
 					double deltaYP = getMomentum().getYR();
 					double deltaXPO = o.getMomentum().getXR();
