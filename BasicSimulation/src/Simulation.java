@@ -5,6 +5,7 @@ public class Simulation extends JFrame
 {
   public static final int WIDTH = 1200;
   public static final int HEIGHT = 600;
+  public static boolean debug = true;
 
   public Simulation()
   {

@@ -3,18 +3,37 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Canvas;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimuInstance extends Canvas implements Runnable
 {
 	private BufferedImage back;
-	private Ball ball;
-	private Ball otherball;
+	private PhysicsObject ball;
+	private PhysicsObject otherball;
+	private PriorityList objects;
+	private List<ElectricField> fields;
+	private static boolean slow;
+	private ElectricField testfield;
+
   public SimuInstance()
   {
-	  ball = new Ball(100, 380, 50, 50, 100, 1, 1, 0, 0);
+	  ball = new PhysicsObject(150, 380, 50, 50, Color.BLUE, 100, new Vector(1, 1), new Vector(0, 0), 1, 2);
 	  ball.setColor(Color.BLUE);
-	  otherball = new Ball(500, 400, 25, 25, 100, 2,1,0,0);
+	  otherball = new PhysicsObject(200, 480, 50, 50, Color.RED, 100, new Vector(-1, 1), new Vector(0, 0), 0, 1);
 	  otherball.setColor(Color.RED);
+
+	  testfield = new ElectricField(400, 400, 200, 50, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 10, "NORTH", 1);
+
+	  objects = new PriorityList();
+	  objects.getList().add(ball);
+	  objects.getList().add(otherball);
+	  objects.sortByPrio();
+
+	  fields = new ArrayList<ElectricField>();
+	  fields.add(testfield);
+
+	  slow = false;
 	  new Thread(this).start();
 	  setVisible(true);
   }
@@ -33,62 +52,57 @@ public class SimuInstance extends Canvas implements Runnable
 
     graphToBack.setColor(Color.WHITE);
     graphToBack.fillRect(0,0,Simulation.WIDTH,Simulation.HEIGHT);
-    
-    ball.move(graphToBack);
-    otherball.move(graphToBack);
-    
-    int bx = ball.getX();
-    int by = ball.getY();
-    int bcx = bx + ball.getWidth();
-    int bcy = by + ball.getHeight();
-    int ox = otherball.getX();
-    int oy = otherball.getY();
-    int ocx = ox + otherball.getWidth();
-    int ocy = oy + otherball.getHeight();
-    
-    if (bcx >= Simulation.WIDTH || bx <= 0) {
-    	ball.setXVelocity(-ball.getXVelocity());
-        ball.move(window);
-        ball.move(window);
-        ball.move(window);
-    	ball.updateMomentum();
+
+    for (PhysicsObject o : objects.getList()) {
+        o.runCollisions(objects.getList(), graphToBack);
     }
 
-    if (ocx >= Simulation.WIDTH || ox <= 0) {
-    	otherball.setXVelocity(-otherball.getXVelocity());
-        otherball.move(window);
-        otherball.move(window);
-        otherball.move(window);
-    	otherball.updateMomentum();
+    for (PhysicsObject o : objects.getList()) {
+        o.updateEdgeStatus(graphToBack);
     }
 
-    if (bcy >= Simulation.HEIGHT || by <= 0) {
-      ball.setYVelocity(-ball.getYVelocity());
-      ball.move(window);
-      ball.move(window);
-      ball.move(window);
-      ball.updateMomentum();
-    }
-
-    if (ocy >= Simulation.HEIGHT || oy <= 0) {
-      otherball.setYVelocity(-otherball.getYVelocity());
-      otherball.move(window);
-      otherball.move(window);
-      otherball.move(window);
-      otherball.updateMomentum();
+    for (PhysicsObject o : objects.getList()) {
+    	o.move(graphToBack);
     }
     
-    if (ocx > bx && ox < bcx && ((ocy >= by && (oy <= bcy)))) {
-    	ball.setXVelocity((otherball.getMomentum() / ball.getMass()));
-    	otherball.setXVelocity((ball.getMomentum() / otherball.getMass()));
-        ball.setYVelocity((otherball.getMomentum() / ball.getMass()));
-        otherball.setYVelocity((ball.getMomentum() / otherball.getMass()));
-    	ball.updateMomentum();
-    	otherball.updateMomentum();
-    }
+	for (ElectricField e : fields) {
+		e.draw(graphToBack);
+	}
+
+	for (PhysicsObject o : objects.getList()) {
+		for (ElectricField e : fields) {
+			if (o.getCharge() != 0) {
+				if (e.getDirection().equals("NORTH")) {
+					if (o.getX() <= e.getCX() && o.getCX() >= e.getX() && o.getCY() <= e.getY()) {
+						o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() - e.getMagnitude() * o.getCharge()));
+					}
+				}
+				if (e.getDirection().equals("SOUTH")) {
+					if (o.getX() <= e.getCX() && o.getCX() >= e.getX() && o.getY() >= e.getCY()) {
+						o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() + e.getMagnitude() * o.getCharge()));
+					}
+				}
+				if (e.getDirection().equals("EAST")) {
+					if (o.getY() <= e.getCY() && o.getCY() >= e.getY() && o.getX() >= e.getCX()) {
+						o.setForce(new Vector(o.getForce().getXR() - e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
+					}
+				}
+				if (e.getDirection().equals("WEST")) {
+					if (o.getY() <= e.getCY() && o.getCY() >= e.getY() && o.getCX() <= e.getX()) {
+						o.setForce(new Vector(o.getForce().getXR() + e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
+					}
+				}
+			}
+		}
+	}
     
     twoDGraph.drawImage(back, null, 0, 0);
   }
+
+  public static void setSlow(boolean s) {
+  	slow = s;
+  }
+
   @SuppressWarnings("static-access")
 	public void run()
 	  {
@@ -96,7 +110,8 @@ public class SimuInstance extends Canvas implements Runnable
 	    {
 	      while(true)
 	      {
-	        Thread.currentThread().sleep(5);
+	      	int mil = 25;
+	        Thread.currentThread().sleep(mil);
 	        repaint();
 	      }
 	    }catch(Exception e)
