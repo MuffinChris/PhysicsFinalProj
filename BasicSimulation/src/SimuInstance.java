@@ -15,6 +15,7 @@ public class SimuInstance extends Canvas implements Runnable
 	private List<ElectricField> fields;
 	private static boolean slow;
 	private ElectricField testfield;
+	private ElectricField testfield2;
 
   public SimuInstance()
   {
@@ -25,6 +26,7 @@ public class SimuInstance extends Canvas implements Runnable
 
 	  testfield = new ElectricField(400, 400, 200, 50, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 10, "NORTH", 1);
 
+
 	  objects = new PriorityList();
 	  objects.getList().add(ball);
 	  objects.getList().add(otherball);
@@ -32,6 +34,7 @@ public class SimuInstance extends Canvas implements Runnable
 
 	  fields = new ArrayList<ElectricField>();
 	  fields.add(testfield);
+	  //fields.add(testfield2);
 
 	  slow = false;
 	  new Thread(this).start();
@@ -72,26 +75,36 @@ public class SimuInstance extends Canvas implements Runnable
 	for (PhysicsObject o : objects.getList()) {
 		for (ElectricField e : fields) {
 			if (o.getCharge() != 0) {
+				boolean moving = false;
 				if (e.getDirection().equals("NORTH")) {
 					if (o.getX() <= e.getCX() && o.getCX() >= e.getX() && o.getCY() <= e.getY()) {
 						o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() - e.getMagnitude() * o.getCharge()));
+						moving = true;
 					}
 				}
 				if (e.getDirection().equals("SOUTH")) {
 					if (o.getX() <= e.getCX() && o.getCX() >= e.getX() && o.getY() >= e.getCY()) {
 						o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() + e.getMagnitude() * o.getCharge()));
+						moving = true;
 					}
 				}
 				if (e.getDirection().equals("EAST")) {
 					if (o.getY() <= e.getCY() && o.getCY() >= e.getY() && o.getX() >= e.getCX()) {
-						o.setForce(new Vector(o.getForce().getXR() - e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
+						o.setForce(new Vector(o.getForce().getXR() + e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
+						moving = true;
 					}
 				}
 				if (e.getDirection().equals("WEST")) {
 					if (o.getY() <= e.getCY() && o.getCY() >= e.getY() && o.getCX() <= e.getX()) {
-						o.setForce(new Vector(o.getForce().getXR() + e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
+						o.setForce(new Vector(o.getForce().getXR() - e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
+						moving = true;
 					}
 				}
+				if (!moving) {
+					e.setForce(new Vector(0,0));
+				}
+				o.updateAcceleration();
+				// fix this! Does not update accel when force is 0.
 			}
 		}
 	}
