@@ -1,5 +1,3 @@
-package BallPit;
-
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -7,44 +5,79 @@ import java.awt.Graphics;
  *
  * @author yaod5171
  */
-public class Ball extends MovingObject /*implements Collideable*/ {
+public class Ball extends Shape /*implements Collideable*/ {
 
-    private int size;
-    private int weight;
+    private double x;
+    private double y;
+    private double radius;
+    private double mass;
+    private double charge;
+
+    private Vector velocity;
+    private Vector acceleration;
+    private Vector momentum;
+    private Vector force;
+    private double energy;
+
     private Color color;
 
-    public Ball(double x, double y) {
-        this(x, y, 5, 25, colorByDensity(5, 25));
+    protected int xPos, yPos;
+    private int priority;
+    private boolean frozen;
+
+    /*public Ball(double x, double y) {
+        this(x, y, 5, 25);
     }
 
-    public Ball(double x, double y, int size, int weight) {
-        this(x, y, size, weight, colorByDensity(size, weight));
+    public Ball(double x, double y, int radius, int mass) {
+        this(x, y, radius, mass, Color.RED);
     }
 
     public Ball(double x, double y, Color color) {
         this(x, y, 5, 25, color);
     }
 
-    public Ball(double x, double y, int size, int weight, Color color) {
-        super(x, y);
-        this.size = size;
-        this.weight = weight;
+    public Ball(double x, double y, int radius, int mass, Color color) {
+        super(x, y, radius, radius);
+        this.radius = radius;
+        this.mass = mass;
         this.color = color;
         updatePos();
+    }*/
+
+    public Ball(double x, double y, double radius, Color c, double mass, Vector v, Vector a, double charge, int priority) {
+        super(x, y, radius, radius);
+        this.setX(x);
+        this.setY(y);
+        this.radius = radius;
+        this.mass = mass;
+        this.setCharge(charge);
+        setVelocity(v);
+        setAcceleration(a);
+        setMomentum(new Vector(0, 0));
+        setForce(new Vector(0, 0));
+        this.setCharge(charge);
+        this.priority = priority;
+        frozen = false;
+    }
+
+    public void updatePos() {
+        xPos = (int)x;
+        yPos = (int)y;
     }
 
     /**
-     * @return the size
+     * @return the radius
      */
-    public int getSize() {
-        return size;
+    public double getRadius() {
+        return radius;
     }
 
     /**
-     * @return the weight
+     * @return the mass
      */
-    public int getWeight() {
-        return weight;
+    public double getMass() {
+        return mass;
     }
 
     /**
@@ -55,17 +88,17 @@ public class Ball extends MovingObject /*implements Collideable*/ {
     }
 
     /**
-     * @param size the size to set
+     * @param radius the radius to set
      */
-    public void setSize(int size) {
-        this.size = size;
+    public void setRadius(double radius) {
+        this.radius = radius;
     }
 
     /**
-     * @param weight the weight to set
+     * @param mass the mass to set
      */
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public void setMass(double mass) {
+        this.mass = mass;
     }
 
     /**
@@ -76,38 +109,108 @@ public class Ball extends MovingObject /*implements Collideable*/ {
     }
 
     /**
-     * Calculates a color based on the density
+     * calculate and return the speed
      *
-     * @param size the radius of the ball
-     * @param weight the weight of the ball
-     * @return a color scaled to the density of the ball
+     * @return the speed
      */
-    static Color colorByDensity(int size, int weight) {
-        double densityTop = 5;
-        double density = (double) weight / Tools.square(size);
-        float hue;
-        if (density < densityTop) {
-            hue = (float) (density / densityTop);
-            hue = 1 - hue;/*
-             hue += 0.2;
-             hue = (float)Math.min(hue, 0.8);*/
-
-        } else {
-            hue = 0;
-        }
-
-        return Color.getHSBColor(hue, 1, 1);
+    public double getSpeed() {
+        return Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2));
     }
 
     /**
-     * Check if a point has collided with the ball
+     * calculate and return the direction
      *
-     * @param x x of the point
-     * @param y y of the point
-     * @return true if point is inside or on ball
+     * @return the direction in radians
      */
-    public boolean pointCollide(int x, int y) {
-        return (Tools.square(x - this.xPos) + Tools.square(y - this.yPos) <= Tools.square(getSize()));
+    public double getDir() {
+        return Math.atan2(vy, vx);
+    }
+
+    /**
+     * Set the speed/dir
+     *
+     * @param speed the speed to set
+     * @param dir the dir to set
+     */
+    public void setSpeedDir(double speed, double dir) {
+        vx = speed * Math.cos(dir);
+        vy = speed * Math.sin(dir);
+    }
+
+    /**
+     * Draw the ball to a window
+     *
+     * @param window the window to draw to
+     */
+    public void draw(Graphics window) {
+        window.setColor(getColor());
+        window.fillOval(xPos - getRadius(), yPos - getRadius(), 2 * getRadius(), 2 * getRadius());
+        window.setColor(Color.BLACK);
+        //window.drawLine(xPos, yPos, xPos + (int) (10 * getSpeed() * Math.cos(getDir())), yPos + (int) (10 * getSpeed() * Math.sin(getDir())));
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getCharge() {
+        return charge;
+    }
+
+    public void setCharge(double charge) {
+        this.charge = charge;
+    }
+
+    public Vector getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Vector velocity) {
+        this.velocity = velocity;
+    }
+
+    public Vector getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(Vector acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public Vector getMomentum() {
+        return momentum;
+    }
+
+    public void setMomentum(Vector momentum) {
+        this.momentum = momentum;
+    }
+
+    public Vector getForce() {
+        return force;
+    }
+
+    public void setForce(Vector force) {
+        this.force = force;
+    }
+
+    public double getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(double energy) {
+        this.energy = energy;
     }
 
     /**
@@ -116,7 +219,7 @@ public class Ball extends MovingObject /*implements Collideable*/ {
      * @param obj the other ball to check
      */
     public void collideWithBall(Ball obj) {
-        if (sqDist(obj.getX(), obj.getY()) <= Tools.square(getSize() + obj.getSize())) {
+        if (sqDist(obj.getX(), obj.getY()) <= Tools.square(getRadius() + obj.getRadius())) {
             //find the angle of collision
             double collisionAngle = Math.atan2(obj.getY() - this.getY(), obj.getX() - this.getX()) - Math.PI / 2;
             //calculate each ball's angle of incidence from the angle of collision
@@ -128,15 +231,15 @@ public class Ball extends MovingObject /*implements Collideable*/ {
             double thisParallel = this.getSpeed() * Math.cos(thisIncidence);
             double objParallel = obj.getSpeed() * Math.cos(objIncidence);
             //calculate the momentum of each ball along the collision
-            double thisMomentum = thisComponent * this.getWeight();
-            double objMomentum = objComponent * obj.getWeight();
+            double thisMomentum = thisComponent * this.getMass();
+            double objMomentum = objComponent * obj.getMass();
             //completely switch momentums; this is a perfectly elastic collision.
             double temp = objMomentum;
             objMomentum = thisMomentum;
             thisMomentum = temp;
             //convert back to velocity
-            thisComponent = thisMomentum / this.getWeight();
-            objComponent = objMomentum / obj.getWeight();
+            thisComponent = thisMomentum / this.getMass();
+            objComponent = objMomentum / obj.getMass();
             //re-calculate the speed and direction
             double thisSpeed = Math.sqrt(Tools.square(thisComponent) + Tools.square(thisParallel));
             double thisDir = Math.atan2(thisComponent, thisParallel) + collisionAngle;
@@ -146,13 +249,13 @@ public class Ball extends MovingObject /*implements Collideable*/ {
             this.setSpeedDir(thisSpeed, thisDir);
             obj.setSpeedDir(objSpeed, objDir);
 //            //oh, and move them out of the way so they don't get stuck to each other.
-//            double[] collisionPoint = {(this.getX()*this.size+obj.getX()*obj.getSize())/(size+obj.getSize()),
-//                (this.getY()*this.size+obj.getY()*obj.getSize())/(size+obj.getSize())};
-//            obj.setX(-Math.cos(collisionAngle)*obj.getSize() + collisionPoint[0]);
-//            obj.setY(-Math.sin(collisionAngle)*obj.getSize() + collisionPoint[1]);
-//            this.setX(Math.cos(collisionAngle)*this.getSize() + collisionPoint[0]);
-//            this.setX(Math.sin(collisionAngle)*this.getSize() + collisionPoint[1]);
-//            
+//            double[] collisionPoint = {(this.getX()*this.radius+obj.getX()*obj.getRadius())/(radius+obj.getRadius()),
+//                (this.getY()*this.radius+obj.getY()*obj.getRadius())/(radius+obj.getRadius())};
+//            obj.setX(-Math.cos(collisionAngle)*obj.getRadius() + collisionPoint[0]);
+//            obj.setY(-Math.sin(collisionAngle)*obj.getRadius() + collisionPoint[1]);
+//            this.setX(Math.cos(collisionAngle)*this.getRadius() + collisionPoint[0]);
+//            this.setX(Math.sin(collisionAngle)*this.getRadius() + collisionPoint[1]);
+//
 //            this.move();
 //            obj.move();
         }
@@ -173,25 +276,25 @@ public class Ball extends MovingObject /*implements Collideable*/ {
         double[] bouncePoint = new double[2];
 
         //is a collision possible? if not, don't run the other tests.
-        if (wx < getX() + getSize() && getX() - getSize() < wx + wid
-                && wy < getY() + getSize() && getY() - getSize() < wy + ht) {
+        if (wx < getX() + getRadius() && getX() - getRadius() < wx + wid
+                && wy < getY() + getRadius() && getY() - getRadius() < wy + ht) {
 
             //left and right sides
             if (wy < getY() && getY() < wy + ht) {
-                if (wx < getX() + getSize() && getX() - getSize() < wx + wid) {
+                if (wx < getX() + getRadius() && getX() - getRadius() < wx + wid) {
                     bounceMode = 1;
                 }
             }
             //top and bottom sides
             if (wx < getX() && getX() < wx + wid) {
-                if (wy < getY() + getSize() && getY() - getSize() < wy + ht) {
+                if (wy < getY() + getRadius() && getY() - getRadius() < wy + ht) {
                     bounceMode = 2;
                 }
             }
             //corners
             double[][] points = {{wx, wy}, {wx + wid, wy}, {wx, wy + ht}, {wx + wid, wy + ht}};
             for (double[] point : points) {
-                if (sqDist(point[0], point[1]) < Tools.square(getSize())) {
+                if (sqDist(point[0], point[1]) < Tools.square(getRadius())) {
                     bounceMode = 3;
                     bouncePoint = point;
                 }
@@ -203,16 +306,16 @@ public class Ball extends MovingObject /*implements Collideable*/ {
             } else if (bounceMode == 1) {
                 setVX(-getVX());
                 if (getX() < wx) {
-                    setX(wx - size);
+                    setX(wx - radius);
                 } else {
-                    setX(wx + wid + size);
+                    setX(wx + wid + radius);
                 }
             } else if (bounceMode == 2) {
                 setVY(-getVY());
                 if (getY() < wy) {
-                    setY(wy - size);
+                    setY(wy - radius);
                 } else {
-                    setY(wy + ht + size);
+                    setY(wy + ht + radius);
                 }
             } else if (bounceMode == 3) {
                 setVX(-getVX());
@@ -220,27 +323,4 @@ public class Ball extends MovingObject /*implements Collideable*/ {
             }
         }
     }
-
-    /**
-     * Bounce off a wall.
-     *
-     * @param obj the wall to bounce off of
-     */
-    public void bounceOffWall(Wall obj) {
-        //corner bounce or side bounce?
-
-    }
-
-    /**
-     * Draw the ball to a window
-     *
-     * @param window the window to draw to
-     */
-    public void draw(Graphics window) {
-        window.setColor(getColor());
-        window.fillOval(xPos - getSize(), yPos - getSize(), 2 * getSize(), 2 * getSize());
-        window.setColor(Color.BLACK);
-        //window.drawLine(xPos, yPos, xPos + (int) (10 * getSpeed() * Math.cos(getDir())), yPos + (int) (10 * getSpeed() * Math.sin(getDir())));
-    }
-
 }
