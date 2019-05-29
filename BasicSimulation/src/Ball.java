@@ -1,8 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.List;
 
 /**
- *
  * @author yaod5171
  */
 public class Ball extends Shape /*implements Collideable*/ {
@@ -46,7 +46,7 @@ public class Ball extends Shape /*implements Collideable*/ {
     }*/
 
     public Ball(double x, double y, double radius, Color c, double mass, Vector v, Vector a, double charge, int priority) {
-        super(x, y, radius, radius);
+        super((int) x, (int) y, (int) radius, (int) radius);
         this.setX(x);
         this.setY(y);
         this.radius = radius;
@@ -59,11 +59,17 @@ public class Ball extends Shape /*implements Collideable*/ {
         this.setCharge(charge);
         this.priority = priority;
         frozen = false;
+        updatePos();
+        updateEnergy();
     }
 
     public void updatePos() {
-        xPos = (int)x;
-        yPos = (int)y;
+        xPos = (int) x;
+        yPos = (int) y;
+    }
+
+    public void updateEnergy() {
+        energy = 0.5 * mass * Math.pow(getVelocity().getRate(), 2);
     }
 
     /**
@@ -114,7 +120,7 @@ public class Ball extends Shape /*implements Collideable*/ {
      * @return the speed
      */
     public double getSpeed() {
-        return Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2));
+        return velocity.getRate();
     }
 
     /**
@@ -123,18 +129,18 @@ public class Ball extends Shape /*implements Collideable*/ {
      * @return the direction in radians
      */
     public double getDir() {
-        return Math.atan2(vy, vx);
+        return velocity.getAngle();
     }
 
     /**
      * Set the speed/dir
      *
      * @param speed the speed to set
-     * @param dir the dir to set
+     * @param dir   the dir to set
      */
     public void setSpeedDir(double speed, double dir) {
-        vx = speed * Math.cos(dir);
-        vy = speed * Math.sin(dir);
+        velocity.setXR(speed * Math.cos(dir));
+        velocity.setYR(speed * Math.sin(dir));
     }
 
     /**
@@ -144,7 +150,7 @@ public class Ball extends Shape /*implements Collideable*/ {
      */
     public void draw(Graphics window) {
         window.setColor(getColor());
-        window.fillOval(xPos - getRadius(), yPos - getRadius(), 2 * getRadius(), 2 * getRadius());
+        window.fillOval(xPos - (int) getRadius(), yPos - (int) getRadius(), 2 * (int) getRadius(), 2 * (int) getRadius());
         window.setColor(Color.BLACK);
         //window.drawLine(xPos, yPos, xPos + (int) (10 * getSpeed() * Math.cos(getDir())), yPos + (int) (10 * getSpeed() * Math.sin(getDir())));
     }
@@ -213,41 +219,50 @@ public class Ball extends Shape /*implements Collideable*/ {
         this.energy = energy;
     }
 
+    public double getXEnergy() {
+        return 0.5 * mass * Math.pow(getVelocity().getXR(), 2);
+    }
+
+    public double getYEnergy() {
+        return 0.5 * mass * Math.pow(getVelocity().getYR(), 2);
+    }
+
     /**
      * Bounce the ball off another ball if they've collided.
      *
-     * @param obj the other ball to check
+     * @param objects the list of other balls to check
      */
-    public void collideWithBall(Ball obj) {
-        if (sqDist(obj.getX(), obj.getY()) <= Tools.square(getRadius() + obj.getRadius())) {
-            //find the angle of collision
-            double collisionAngle = Math.atan2(obj.getY() - this.getY(), obj.getX() - this.getX()) - Math.PI / 2;
-            //calculate each ball's angle of incidence from the angle of collision
-            double thisIncidence = this.getDir() - collisionAngle;
-            double objIncidence = obj.getDir() - collisionAngle;
-            //calculate each ball's velocity components
-            double thisComponent = this.getSpeed() * Math.sin(thisIncidence);
-            double objComponent = obj.getSpeed() * Math.sin(objIncidence);
-            double thisParallel = this.getSpeed() * Math.cos(thisIncidence);
-            double objParallel = obj.getSpeed() * Math.cos(objIncidence);
-            //calculate the momentum of each ball along the collision
-            double thisMomentum = thisComponent * this.getMass();
-            double objMomentum = objComponent * obj.getMass();
-            //completely switch momentums; this is a perfectly elastic collision.
-            double temp = objMomentum;
-            objMomentum = thisMomentum;
-            thisMomentum = temp;
-            //convert back to velocity
-            thisComponent = thisMomentum / this.getMass();
-            objComponent = objMomentum / obj.getMass();
-            //re-calculate the speed and direction
-            double thisSpeed = Math.sqrt(Tools.square(thisComponent) + Tools.square(thisParallel));
-            double thisDir = Math.atan2(thisComponent, thisParallel) + collisionAngle;
-            double objSpeed = Math.sqrt(Tools.square(objComponent) + Tools.square(objParallel));
-            double objDir = Math.atan2(objComponent, objParallel) + collisionAngle;
-            //finally, reassign the speed of each.
-            this.setSpeedDir(thisSpeed, thisDir);
-            obj.setSpeedDir(objSpeed, objDir);
+    public void runCollisions(List<Ball> objects) {
+        for (Ball obj : objects) {
+            if (square(obj.getX()) + square(obj.getY()) <= square(getRadius() + obj.getRadius())) {
+                //find the angle of collision
+                double collisionAngle = Math.atan2(obj.getY() - this.getY(), obj.getX() - this.getX()) - Math.PI / 2;
+                //calculate each ball's angle of incidence from the angle of collision
+                double thisIncidence = this.getDir() - collisionAngle;
+                double objIncidence = obj.getDir() - collisionAngle;
+                //calculate each ball's velocity components
+                double thisComponent = this.getSpeed() * Math.sin(thisIncidence);
+                double objComponent = obj.getSpeed() * Math.sin(objIncidence);
+                double thisParallel = this.getSpeed() * Math.cos(thisIncidence);
+                double objParallel = obj.getSpeed() * Math.cos(objIncidence);
+                //calculate the momentum of each ball along the collision
+                double thisMomentum = thisComponent * this.getMass();
+                double objMomentum = objComponent * obj.getMass();
+                //completely switch momentums; this is a perfectly elastic collision.
+                double temp = objMomentum;
+                objMomentum = thisMomentum;
+                thisMomentum = temp;
+                //convert back to velocity
+                thisComponent = thisMomentum / this.getMass();
+                objComponent = objMomentum / obj.getMass();
+                //re-calculate the speed and direction
+                double thisSpeed = Math.sqrt(square(thisComponent) + square(thisParallel));
+                double thisDir = Math.atan2(thisComponent, thisParallel) + collisionAngle;
+                double objSpeed = Math.sqrt(square(objComponent) + square(objParallel));
+                double objDir = Math.atan2(objComponent, objParallel) + collisionAngle;
+                //finally, reassign the speed of each.
+                this.setSpeedDir(thisSpeed, thisDir);
+                obj.setSpeedDir(objSpeed, objDir);
 //            //oh, and move them out of the way so they don't get stuck to each other.
 //            double[] collisionPoint = {(this.getX()*this.radius+obj.getX()*obj.getRadius())/(radius+obj.getRadius()),
 //                (this.getY()*this.radius+obj.getY()*obj.getRadius())/(radius+obj.getRadius())};
@@ -258,14 +273,11 @@ public class Ball extends Shape /*implements Collideable*/ {
 //
 //            this.move();
 //            obj.move();
+            }
         }
     }
 
-    /**
-     * Bounce the ball off a wall if they've collided.
-     *
-     * @param obj the wall to check
-     */
+    /*
     public void collideWithWall(Wall obj) {
         double wx = obj.getX();
         double wy = obj.getY();
@@ -322,5 +334,30 @@ public class Ball extends Shape /*implements Collideable*/ {
                 setVY(-getVY());
             }
         }
+    }*/
+
+    public void move(Graphics window) {
+        if (frozen) {
+            draw(window);
+            return;
+        }
+        window.setColor(color);
+        velocity.setXR(velocity.getXR() + acceleration.getXR());
+        setX(getX() + (int) Math.round(velocity.getXR()));
+        velocity.setYR(velocity.getYR() + acceleration.getYR());
+        setY(getY() + (int) Math.round(velocity.getYR()));
+        velocity.calculateVector();
+        acceleration.calculateVector();
+        setCX((int) getX());
+        setCY((int) getY());
+        //setForce(new Vector(getForce().getXR() - (mass * 9.8 * 0.33), getForce().getYR() - (mass * 9.8 * 0.33)));
+        draw(window);
+    }
+
+    /**
+     * Helper method to square a number
+     */
+    private static double square(double in) {
+        return in * in;
     }
 }
