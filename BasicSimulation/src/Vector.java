@@ -37,10 +37,12 @@ public class Vector {
 
     public void setXR(double x) {
         xr = x;
+        calculateVector();
     }
 
     public void setYR(double y) {
         yr = y;
+        calculateVector();
     }
 
     public void calculateVector() {
