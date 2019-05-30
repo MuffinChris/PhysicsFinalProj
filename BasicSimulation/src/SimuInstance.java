@@ -19,15 +19,20 @@ public class SimuInstance extends Canvas implements Runnable
 	private Wand wand;
 	private ChargeLocation positive;
 	private ChargeLocation negative;
+	private Hole hole;
+	private int score;
 
   public SimuInstance()
   {
+  	  score = 0;
 	  ball = new PhysicsObject(150, 380, 50, 50, Color.BLUE, 100, new Vector(1, 1), new Vector(0, 0), 1, 50);
 	  ball.setColor(Color.BLUE);
 	  otherball = new PhysicsObject(200, 480, 50, 50, Color.RED, 100, new Vector(-1, 1), new Vector(0, 0), 1, 49);
 	  otherball.setColor(Color.RED);
 	  testfield = new ElectricField(600, 600, 200, 50, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 10, "NORTH", 1);
 	  testfield2 = new ElectricField(200, 100, 50, 300, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 11, "EAST", 1);
+
+	  hole = new Hole(1100, 600, 50, 50);
 
 	  objects = new PriorityList();
 	  objects.getList().add(ball);
@@ -119,8 +124,14 @@ public class SimuInstance extends Canvas implements Runnable
 			}
 		}
 	}
+
+	score+=hole.draw(graphToBack, objects.getList());
+
 	wand.draw(graphToBack, positive, negative);
 	wand.drawCharged(graphToBack, objects.getList());
+
+	graphToBack.setColor(Color.BLACK);
+	graphToBack.drawString("Score: " + score, hole.getX(), hole.getY());
 
     twoDGraph.drawImage(back, null, 0, 0);
   }
