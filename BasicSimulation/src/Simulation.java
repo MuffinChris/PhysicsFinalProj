@@ -3,13 +3,15 @@ import java.awt.Component;
 
 public class Simulation extends JFrame
 {
-  public static final int WIDTH = 1200;
-  public static final int HEIGHT = 600;
+  public static final int WIDTH = 1600;
+  public static final int HEIGHT = 900;
   public static boolean debug = true;
+
+  public static boolean REALISTICELECTRIC = false;
 
   public Simulation()
   {
-    super("MOMENTUM SIMULATION");
+    super("ELECTRIC FIELD GAME!!! (INNOVATIVE TITLE)");
     setSize(WIDTH,HEIGHT);
 
     SimuInstance theGame = new SimuInstance();

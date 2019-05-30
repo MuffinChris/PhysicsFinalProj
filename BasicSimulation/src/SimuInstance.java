@@ -16,17 +16,18 @@ public class SimuInstance extends Canvas implements Runnable
 	private static boolean slow;
 	private ElectricField testfield;
 	private ElectricField testfield2;
+	private Wand wand;
+	private ChargeLocation positive;
+	private ChargeLocation negative;
 
   public SimuInstance()
   {
-	  ball = new PhysicsObject(150, 380, 50, 50, Color.BLUE, 100, new Vector(1, 1), new Vector(0, 0), 1, 2);
+	  ball = new PhysicsObject(150, 380, 50, 50, Color.BLUE, 100, new Vector(1, 1), new Vector(0, 0), 1, 50);
 	  ball.setColor(Color.BLUE);
-	  otherball = new PhysicsObject(200, 480, 50, 50, Color.RED, 100, new Vector(-1, 1), new Vector(0, 0), 1, 1);
+	  otherball = new PhysicsObject(200, 480, 50, 50, Color.RED, 100, new Vector(-1, 1), new Vector(0, 0), 1, 49);
 	  otherball.setColor(Color.RED);
-
-	  testfield = new ElectricField(400, 400, 200, 50, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 10, "NORTH", 1);
-	  testfield2 = new ElectricField(400, 100, 50, 200, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 11, "EAST", 1);
-
+	  testfield = new ElectricField(600, 600, 200, 50, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 10, "NORTH", 1);
+	  testfield2 = new ElectricField(200, 100, 50, 300, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 11, "EAST", 1);
 
 	  objects = new PriorityList();
 	  objects.getList().add(ball);
@@ -36,6 +37,13 @@ public class SimuInstance extends Canvas implements Runnable
 	  fields = new ArrayList<ElectricField>();
 	  fields.add(testfield);
 	  fields.add(testfield2);
+
+	  positive = new ChargeLocation(500, 800, new Color(255, 107, 111));
+	  negative = new ChargeLocation(400, 800, new Color(48, 180, 175));
+
+	  wand = new Wand();
+	  addMouseListener(wand);
+	  addMouseMotionListener(wand);
 
 	  slow = false;
 	  new Thread(this).start();
@@ -57,6 +65,13 @@ public class SimuInstance extends Canvas implements Runnable
     graphToBack.setColor(Color.WHITE);
     graphToBack.fillRect(0,0,Simulation.WIDTH,Simulation.HEIGHT);
 
+    positive.draw(graphToBack);
+    negative.draw(graphToBack);
+
+    for (ElectricField e : fields) {
+    	e.draw(graphToBack);
+    }
+
     for (PhysicsObject o : objects.getList()) {
         o.runCollisions(objects.getList(), graphToBack);
     }
@@ -68,10 +83,6 @@ public class SimuInstance extends Canvas implements Runnable
     for (PhysicsObject o : objects.getList()) {
     	o.move(graphToBack);
     }
-    
-	for (ElectricField e : fields) {
-		e.draw(graphToBack);
-	}
 
 	for (PhysicsObject o : objects.getList()) {
 		boolean moving = false;
@@ -105,11 +116,12 @@ public class SimuInstance extends Canvas implements Runnable
 					o.setForce(new Vector(0,0));
 				}
 				o.updateAcceleration();
-				// fix this! Does not update accel when force is 0.
 			}
 		}
 	}
-    
+	wand.draw(graphToBack, positive, negative);
+	wand.drawCharged(graphToBack, objects.getList());
+
     twoDGraph.drawImage(back, null, 0, 0);
   }
 
@@ -124,7 +136,7 @@ public class SimuInstance extends Canvas implements Runnable
 	    {
 	      while(true)
 	      {
-	      	int mil = 10;
+	      	int mil = 30;
 	        Thread.currentThread().sleep(mil);
 	        repaint();
 	      }

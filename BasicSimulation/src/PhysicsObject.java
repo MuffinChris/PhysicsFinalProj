@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +144,9 @@ public class PhysicsObject extends Shape{
 	public void draw(Graphics window) {
 		window.setColor(color);
 		window.fillRect(x, y, width, height);
+		window.setColor(Color.BLACK);
+		DecimalFormat df = new DecimalFormat("#.##");
+		window.drawString(df.format(charge), x, y);
 	}
 	
 	public void move(Graphics window) {
@@ -333,7 +337,7 @@ public class PhysicsObject extends Shape{
 	}
 
 	public void updateEdgeStatus(Graphics window) {
-		if (frozen) {
+		if (frozen || mass == 0) {
 			return;
 		}
 		if (getCX() >= Simulation.WIDTH || getX() <= 0) {
@@ -349,9 +353,7 @@ public class PhysicsObject extends Shape{
 		while (tries <= 20 && (getCY() >= Simulation.HEIGHT || getY() <= 0) || (getCX() >= Simulation.WIDTH || getX() <= 0)) {
 			move(window);
 			tries++;
-		}
-		if (tries > 20) {
-			freeze();
+
 		}
 		updateMomentum();
 	}

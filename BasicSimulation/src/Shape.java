@@ -7,7 +7,7 @@ public class Shape {
 
     public Shape(int x, int y, int w, int h) {
         cx = x + w;
-        cy = w + h;
+        cy = y + h;
         this.w = w;
         this.h = h;
     }
