@@ -27,7 +27,7 @@ public class SimuInstance extends Canvas implements Runnable
   	  score = 0;
 	  ball = new PhysicsObject(150, 380, 50, 50, Color.BLUE, 100, new Vector(1, 1), new Vector(0, 0), 1, 50);
 	  ball.setColor(Color.BLUE);
-	  otherball = new PhysicsObject(200, 480, 50, 50, Color.RED, 200, new Vector(-1, 1), new Vector(0, 0), 1, 49);
+	  otherball = new PhysicsObject(200, 480, 50, 50, Color.RED, 100, new Vector(-1, 1), new Vector(0, 0), 1, 49);
 	  otherball.setColor(Color.RED);
 	  testfield = new ElectricField(600, 600, 200, 50, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 10, "NORTH", 1);
 	  testfield2 = new ElectricField(200, 100, 50, 300, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 11, "EAST", 1);
@@ -93,30 +93,40 @@ public class SimuInstance extends Canvas implements Runnable
 		boolean moving = false;
 		for (ElectricField e : fields) {
 			if (o.getCharge() != 0) {
+				Vector force = new Vector(0, 0);
 				if (e.getDirection().equals("NORTH")) {
 					if (o.getX() <= e.getCX() && o.getCX() >= e.getX() && o.getCY() <= e.getY()) {
-						o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() - e.getMagnitude() * o.getCharge()));
+						force.setXR(force.getXR() + o.getForce().getXR());
+						force.setYR(force.getYR() + o.getForce().getYR() - e.getMagnitude() * o.getCharge());
+						//o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() - e.getMagnitude() * o.getCharge()));
 						moving = true;
 					}
 				}
 				if (e.getDirection().equals("SOUTH")) {
 					if (o.getX() <= e.getCX() && o.getCX() >= e.getX() && o.getY() >= e.getCY()) {
-						o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() + e.getMagnitude() * o.getCharge()));
+						force.setXR(force.getXR() + o.getForce().getXR());
+						force.setYR(force.getYR() + o.getForce().getYR() + e.getMagnitude() * o.getCharge());
+						//o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() + e.getMagnitude() * o.getCharge()));
 						moving = true;
 					}
 				}
 				if (e.getDirection().equals("EAST")) {
 					if (o.getY() <= e.getCY() && o.getCY() >= e.getY() && o.getX() >= e.getCX()) {
-						o.setForce(new Vector(o.getForce().getXR() + e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
+						force.setXR(force.getXR() + o.getForce().getXR() + e.getMagnitude() * o.getCharge());
+						force.setYR(force.getYR() + o.getForce().getYR());
+						//o.setForce(new Vector(o.getForce().getXR() + e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
 						moving = true;
 					}
 				}
 				if (e.getDirection().equals("WEST")) {
 					if (o.getY() <= e.getCY() && o.getCY() >= e.getY() && o.getCX() <= e.getX()) {
-						o.setForce(new Vector(o.getForce().getXR() - e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
+						force.setXR(force.getXR() + o.getForce().getXR() - e.getMagnitude() * o.getCharge());
+						force.setYR(force.getYR() + o.getForce().getYR());
+						//o.setForce(new Vector(o.getForce().getXR() - e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
 						moving = true;
 					}
 				}
+				o.setForce(force);
 				if (!moving) {
 					o.setForce(new Vector(0,0));
 				}
