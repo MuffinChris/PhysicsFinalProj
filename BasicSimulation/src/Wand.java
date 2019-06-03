@@ -70,6 +70,7 @@ public class Wand implements MouseListener, MouseMotionListener {
     public void draw(Graphics window, ChargeLocation c1, ChargeLocation c2) {
         window.drawImage(image, x, y, 50, 175, null);
         window.setColor(Color.BLACK);
+        updateImage();
         DecimalFormat df = new DecimalFormat("#.##");
         window.drawString(df.format(charge) + "", x, y);
         if (mx >= c1.getX() && mx <= c1.getX() + 100 && my >= c1.getY() && my <= c1.getY() + 100) {

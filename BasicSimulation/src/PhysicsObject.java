@@ -291,12 +291,12 @@ public class PhysicsObject extends Shape{
 						o.setForce(new Vector(finalXForceO, finalYForceO));
 					}*/
 					int tries = 0;
-					while ((getCX() >= o.getX() && getX() <= o.getCX()) && (getCY() >= o.getY() && getY() <= o.getCY()) && tries <= 20) {
+					while ((getCX() >= o.getX() && getX() <= o.getCX()) && (getCY() >= o.getY() && getY() <= o.getCY()) && tries <= 500) {
 						move(window);
 						o.move(window);
 						tries++;
 					}
-					if (tries > 20) {
+					if (tries > 500) {
 						freeze();
 					}
 				}
@@ -340,21 +340,59 @@ public class PhysicsObject extends Shape{
 		if (frozen || mass == 0) {
 			return;
 		}
+		boolean side = false;
+		boolean west = false;
+		boolean verts = false;
+		boolean up = false;
 		if (getCX() >= Simulation.WIDTH || getX() <= 0) {
 			force.setXR(0);
 			getVelocity().setXR(-getVelocity().getXR());
+			side = true;
+			if (getX() <= 0) {
+				west=true;
+			}
 		}
-		if (getCY() >= Simulation.HEIGHT || getY() <= 0) {
+		if (getCY() >= Simulation.HEIGHT - 50 || getY() <= 0) {
 			force.setYR(0);
 			getVelocity().setYR(-getVelocity().getYR());
+			verts = true;
+			if (getY() <= 0) {
+				up=true;
+			}
+		}
+		if (side && !verts) {
+			if (west) {
+				setX(0);
+			} else {
+				setX(Simulation.WIDTH - 50);
+			}
+		}
+		if (verts && !side) {
+			if (up) {
+				setY(0);
+			} else {
+				setY(Simulation.HEIGHT - 100);
+			}
 		}
 		updateAcceleration();
+		if (side && verts) {
+			if (west) {
+				setX(0);
+			} else {
+				setX(Simulation.WIDTH - 50);
+			}
+			if (up) {
+				setY(0);
+			} else {
+				setY(Simulation.HEIGHT - 100);
+			}
+		}
 		int tries = 0;
-		while (tries <= 20 && (getCY() >= Simulation.HEIGHT || getY() <= 0) || (getCX() >= Simulation.WIDTH || getX() <= 0)) {
+		/*while (tries <= 20 && (getCY() >= Simulation.HEIGHT || getY() <= 0) || (getCX() >= Simulation.WIDTH || getX() <= 0)) {
 			move(window);
 			tries++;
 
-		}
+		}*/
 		updateMomentum();
 	}
 

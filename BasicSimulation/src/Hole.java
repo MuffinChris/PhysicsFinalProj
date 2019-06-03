@@ -44,9 +44,9 @@ public class Hole extends Shape {
         window.setColor(Color.GREEN);
         window.fillOval(x, y, width, height);
         for (PhysicsObject o : objects) {
-            if (Math.sqrt(Math.pow((x + 25) - o.getX(), 2) + Math.pow((y + 25) - o.getY(), 2)) <= 50) {
-                o.setX(100);
-                o.setY(100);
+            if (Math.sqrt(Math.pow((x + 25) - o.getX(), 2) + Math.pow((y + 25) - o.getY(), 2)) <= 80) {
+                o.setX((int) (Math.random() * 1000 + 100));
+                o.setY((int) (Math.random() * 700 + 100));
                 setX((int) (Math.random() * 1000 + 100));
                 setY((int) (Math.random() * 700 + 100));
                 return 1;
