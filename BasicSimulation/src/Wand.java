@@ -85,7 +85,7 @@ public class Wand implements MouseListener, MouseMotionListener {
         if (chargeclick) {
             window.drawImage(imc, x - 80, y - 80, 200, 200, null);
             for (PhysicsObject o : objects) {
-                if (Math.sqrt(Math.pow((x + 120) - o.getX(), 2) + Math.pow((y + 120) - o.getY(), 2)) <= 200) {
+                if (Math.sqrt(Math.pow((x) - o.getX(), 2) + Math.pow((y -40) - o.getY(), 2)) <= 100) {
                     if (Simulation.REALISTICELECTRIC) {
                         double totalcharge = o.getCharge() + charge;
                         o.setCharge(totalcharge/2);

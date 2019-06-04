@@ -40,15 +40,38 @@ public class Hole extends Shape {
         this.y = y;
     }
 
-    public int draw(Graphics window, List<PhysicsObject> objects) {
+    public int draw(Graphics window, List<PhysicsObject> objects, List<ElectricField> fields) {
         window.setColor(Color.GREEN);
         window.fillOval(x, y, width, height);
         for (PhysicsObject o : objects) {
-            if (Math.sqrt(Math.pow((x + 25) - o.getX(), 2) + Math.pow((y + 25) - o.getY(), 2)) <= 80) {
+            if (Math.sqrt(Math.pow((x + 25) - (o.getX() + o.getWidth()/2), 2) + Math.pow((y + 25) - (o.getY() + o.getHeight()/2), 2)) <= 60) {
                 o.setX((int) (Math.random() * 1000 + 100));
                 o.setY((int) (Math.random() * 700 + 100));
                 setX((int) (Math.random() * 1000 + 100));
                 setY((int) (Math.random() * 700 + 100));
+                for (ElectricField e : fields) {
+                    System.out.println(e.getX() + " " + e.getY() + " " + e.getWidth() + " " + e.getHeight() + " " + e.getDirection());
+                    e.setX((int) (Math.random() * 1000 + 100));
+                    e.setY((int) (Math.random() * 700 + 100));
+                    e.setWidth((int) (Math.random() * 200) + 100);
+                    e.setHeight((int) (Math.random() * 200) + 100);
+
+                    double rand = Math.random();
+                    if (rand <=0.24) {
+                        e.setDirection("NORTH");
+                    }
+                    if (rand > 0.24 && rand < 0.5) {
+                        e.setDirection("WEST");
+                    }
+                    if (rand >= 0.5 && rand < 0.75) {
+                        e.setDirection("EAST");
+                    }
+                    if (rand >= 0.75 ) {
+                        e.setDirection("SOUTH");
+                    }
+                    System.out.println(e.getX() + " " + e.getY() + " " + e.getWidth() + " " + e.getHeight() + " " + e.getDirection());
+
+                }
                 return 1;
             }
         }

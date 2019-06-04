@@ -6,8 +6,16 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3eae9c8b-df2c-449e-8d45-a4a5aab9ac78" name="Default Changelist" comment="">
+    <list default="true" id="3eae9c8b-df2c-449e-8d45-a4a5aab9ac78" name="Default Changelist" comment="Momentum Sim">
+      <change afterPath="$PROJECT_DIR$/BasicSimulation/src/Score.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicSimulation/bin/SimuInstance.class" beforeDir="false" afterPath="$PROJECT_DIR$/BasicSimulation/bin/SimuInstance.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicSimulation/src/ElectricField.java" beforeDir="false" afterPath="$PROJECT_DIR$/BasicSimulation/src/ElectricField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicSimulation/src/Hole.java" beforeDir="false" afterPath="$PROJECT_DIR$/BasicSimulation/src/Hole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicSimulation/src/PhysicsObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/BasicSimulation/src/PhysicsObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicSimulation/src/Shape.java" beforeDir="false" afterPath="$PROJECT_DIR$/BasicSimulation/src/Shape.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BasicSimulation/src/SimuInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/BasicSimulation/src/SimuInstance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BasicSimulation/src/Wand.java" beforeDir="false" afterPath="$PROJECT_DIR$/BasicSimulation/src/Wand.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/BasicSimulation/bin/" />
@@ -26,7 +34,7 @@
         <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Simulation.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
@@ -40,14 +48,24 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BasicSimulation/src/SimuInstance.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="29" column="66" selection-start-line="29" selection-start-column="66" selection-end-line="29" selection-end-column="66" />
+            <state relative-caret-position="-16">
+              <caret line="31" column="78" lean-forward="true" selection-start-line="31" selection-start-column="78" selection-end-line="31" selection-end-column="78" />
               <folding>
-                <element signature="e#4944#4945#0" expanded="true" />
+                <element signature="e#1967#1968#0" expanded="true" />
+                <element signature="e#5743#5744#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Score.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="1" selection-start-column="1" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -55,20 +73,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BasicSimulation/src/PhysicsObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+            <state relative-caret-position="189">
+              <caret line="145" column="31" lean-forward="true" selection-start-line="145" selection-start-column="31" selection-end-line="145" selection-end-column="31" />
               <folding>
-                <element signature="e#9654#9655#0" expanded="true" />
+                <element signature="e#9732#9733#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Hole.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="195">
+              <caret line="56" column="56" selection-start-line="56" selection-start-column="56" selection-end-line="56" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#341#342#0" expanded="true" />
@@ -108,27 +126,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Wand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="49" column="17" lean-forward="true" selection-start-line="49" selection-start-column="17" selection-end-line="49" selection-end-column="17" />
+            <state relative-caret-position="60">
+              <caret line="87" column="98" selection-start-line="87" selection-start-column="98" selection-end-line="87" selection-end-column="98" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#230#231#0" expanded="true" />
                 <element signature="e#254#255#0" expanded="true" />
                 <element signature="e#283#284#0" expanded="true" />
                 <element signature="e#307#308#0" expanded="true" />
-                <element signature="e#3559#3560#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/BasicSimulation/src/PriorityList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="14" selection-start-line="14" selection-end-line="14" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#3551#3552#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -137,9 +143,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BasicSimulation/src/ElectricField.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="38" column="39" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
+            <state relative-caret-position="211">
+              <caret line="39" column="39" lean-forward="true" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="e#458#459#0" expanded="true" />
                 <element signature="e#486#487#0" expanded="true" />
                 <element signature="e#527#528#0" expanded="true" />
@@ -156,9 +163,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Shape.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
+            <state relative-caret-position="180">
+              <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
               <folding>
+                <element signature="e#277#278#0" expanded="true" />
                 <element signature="e#302#303#0" expanded="true" />
                 <element signature="e#334#335#0" expanded="true" />
                 <element signature="e#360#361#0" expanded="true" />
@@ -180,9 +188,15 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>force</find>
-      <find>setForce</find>
       <find>while</find>
+      <find>score</find>
+      <find>score+=</find>
       <find>slow</find>
+      <find>setForce</find>
+      <find>drawString</find>
+      <find>setX(</find>
+      <find>setX(int</find>
+      <find>draw</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -197,13 +211,14 @@
         <option value="$PROJECT_DIR$/BasicSimulation/src/Collidable.java" />
         <option value="$PROJECT_DIR$/BasicSimulation/src/PriorityList.java" />
         <option value="$PROJECT_DIR$/BasicSimulation/src/ChargeLocation.java" />
-        <option value="$PROJECT_DIR$/BasicSimulation/src/Shape.java" />
-        <option value="$PROJECT_DIR$/BasicSimulation/src/ElectricField.java" />
         <option value="$PROJECT_DIR$/BasicSimulation/src/Simulation.java" />
-        <option value="$PROJECT_DIR$/BasicSimulation/src/Hole.java" />
+        <option value="$PROJECT_DIR$/BasicSimulation/src/Score.txt" />
         <option value="$PROJECT_DIR$/BasicSimulation/src/Wand.java" />
+        <option value="$PROJECT_DIR$/BasicSimulation/src/Shape.java" />
         <option value="$PROJECT_DIR$/BasicSimulation/src/PhysicsObject.java" />
+        <option value="$PROJECT_DIR$/BasicSimulation/src/ElectricField.java" />
         <option value="$PROJECT_DIR$/BasicSimulation/src/SimuInstance.java" />
+        <option value="$PROJECT_DIR$/BasicSimulation/src/Hole.java" />
       </list>
     </option>
   </component>
@@ -360,18 +375,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Shape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-          <folding>
-            <element signature="e#302#303#0" expanded="true" />
-            <element signature="e#334#335#0" expanded="true" />
-            <element signature="e#360#361#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BasicSimulation/src/ChargeLocation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -387,11 +390,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/ElectricField.java">
+    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Ball.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-525">
+          <caret line="150" column="39" selection-start-line="150" selection-start-column="39" selection-end-line="150" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Simulation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Wand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="87" column="98" selection-start-line="87" selection-start-column="98" selection-end-line="87" selection-end-column="98" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#230#231#0" expanded="true" />
+            <element signature="e#254#255#0" expanded="true" />
+            <element signature="e#283#284#0" expanded="true" />
+            <element signature="e#307#308#0" expanded="true" />
+            <element signature="e#3551#3552#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Score.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Shape.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="38" column="39" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="39" />
+          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
           <folding>
+            <element signature="e#277#278#0" expanded="true" />
+            <element signature="e#302#303#0" expanded="true" />
+            <element signature="e#334#335#0" expanded="true" />
+            <element signature="e#360#361#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/SimuInstance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-16">
+          <caret line="31" column="78" lean-forward="true" selection-start-line="31" selection-start-column="78" selection-end-line="31" selection-end-column="78" />
+          <folding>
+            <element signature="e#1967#1968#0" expanded="true" />
+            <element signature="e#5743#5744#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/PhysicsObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="145" column="31" lean-forward="true" selection-start-line="145" selection-start-column="31" selection-end-line="145" selection-end-column="31" />
+          <folding>
+            <element signature="e#9732#9733#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/ElectricField.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="39" column="39" lean-forward="true" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#458#459#0" expanded="true" />
             <element signature="e#486#487#0" expanded="true" />
             <element signature="e#527#528#0" expanded="true" />
@@ -406,8 +480,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Hole.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="195">
+          <caret line="56" column="56" selection-start-line="56" selection-start-column="56" selection-end-line="56" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#341#342#0" expanded="true" />
@@ -422,55 +496,6 @@
             <element signature="e#607#608#0" expanded="true" />
             <element signature="e#642#643#0" expanded="true" />
             <element signature="e#667#668#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Wand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="49" column="17" lean-forward="true" selection-start-line="49" selection-start-column="17" selection-end-line="49" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#230#231#0" expanded="true" />
-            <element signature="e#254#255#0" expanded="true" />
-            <element signature="e#283#284#0" expanded="true" />
-            <element signature="e#307#308#0" expanded="true" />
-            <element signature="e#3559#3560#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Ball.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-525">
-          <caret line="150" column="39" selection-start-line="150" selection-start-column="39" selection-end-line="150" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/PhysicsObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
-          <folding>
-            <element signature="e#9654#9655#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/Simulation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BasicSimulation/src/SimuInstance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="29" column="66" selection-start-line="29" selection-start-column="66" selection-end-line="29" selection-end-column="66" />
-          <folding>
-            <element signature="e#4944#4945#0" expanded="true" />
           </folding>
         </state>
       </provider>

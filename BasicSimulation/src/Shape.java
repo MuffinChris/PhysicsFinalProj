@@ -12,6 +12,13 @@ public class Shape {
         this.h = h;
     }
 
+    public void updateShape(int x, int y, int w, int h) {
+        cx = x + w;
+        cy = y + h;
+        this.w = w;
+        this.h = h;
+    }
+
     public int getCX() {
         return cx;
     }

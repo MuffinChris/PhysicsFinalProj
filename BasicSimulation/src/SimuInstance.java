@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Canvas;
 import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +23,11 @@ public class SimuInstance extends Canvas implements Runnable
 	private ChargeLocation negative;
 	private Hole hole;
 	private int score;
+	private File scoref;
 
   public SimuInstance()
   {
+  	  scoref = new File("BasicSimulation/src/Score.txt");
   	  score = 0;
 	  ball = new PhysicsObject(150, 380, 50, 50, Color.BLUE, 100, new Vector(1, 1), new Vector(0, 0), 1, 50);
 	  ball.setColor(Color.BLUE);
@@ -93,35 +97,36 @@ public class SimuInstance extends Canvas implements Runnable
 		boolean moving = false;
 		for (ElectricField e : fields) {
 			if (o.getCharge() != 0) {
-				Vector force = new Vector(0, 0);
+				Vector force = o.getForce();
 				if (e.getDirection().equals("NORTH")) {
 					if (o.getX() <= e.getCX() && o.getCX() >= e.getX() && o.getCY() <= e.getY()) {
-						force.setXR(force.getXR() + o.getForce().getXR());
-						force.setYR(force.getYR() + o.getForce().getYR() - e.getMagnitude() * o.getCharge());
+						force.setXR(force.getXR());
+						force.setYR(force.getYR() - e.getMagnitude() * o.getCharge());
 						//o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() - e.getMagnitude() * o.getCharge()));
 						moving = true;
 					}
 				}
 				if (e.getDirection().equals("SOUTH")) {
 					if (o.getX() <= e.getCX() && o.getCX() >= e.getX() && o.getY() >= e.getCY()) {
-						force.setXR(force.getXR() + o.getForce().getXR());
-						force.setYR(force.getYR() + o.getForce().getYR() + e.getMagnitude() * o.getCharge());
+						force.setXR(force.getXR());
+						force.setYR(force.getYR() + e.getMagnitude() * o.getCharge());
+						//System.out.println(force.getYR());
 						//o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() + e.getMagnitude() * o.getCharge()));
 						moving = true;
 					}
 				}
 				if (e.getDirection().equals("EAST")) {
 					if (o.getY() <= e.getCY() && o.getCY() >= e.getY() && o.getX() >= e.getCX()) {
-						force.setXR(force.getXR() + o.getForce().getXR() + e.getMagnitude() * o.getCharge());
-						force.setYR(force.getYR() + o.getForce().getYR());
+						force.setXR(force.getXR() + e.getMagnitude() * o.getCharge());
+						force.setYR(force.getYR());
 						//o.setForce(new Vector(o.getForce().getXR() + e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
 						moving = true;
 					}
 				}
 				if (e.getDirection().equals("WEST")) {
 					if (o.getY() <= e.getCY() && o.getCY() >= e.getY() && o.getCX() <= e.getX()) {
-						force.setXR(force.getXR() + o.getForce().getXR() - e.getMagnitude() * o.getCharge());
-						force.setYR(force.getYR() + o.getForce().getYR());
+						force.setXR(force.getXR() - e.getMagnitude() * o.getCharge());
+						force.setYR(force.getYR());
 						//o.setForce(new Vector(o.getForce().getXR() - e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
 						moving = true;
 					}
@@ -135,7 +140,34 @@ public class SimuInstance extends Canvas implements Runnable
 		}
 	}
 
-	score+=hole.draw(graphToBack, objects.getList());
+	score+=hole.draw(graphToBack, objects.getList(), fields);
+	  try {
+	  	FileReader reader = new FileReader(scoref);
+	  	BufferedReader br = new BufferedReader(reader);
+		  FileWriter writer = new FileWriter(scoref);
+		  BufferedWriter bw = new BufferedWriter(writer);
+		  if (br.readLine() == null || br.readLine() == "") {
+		  	bw.write("0");
+		  	bw.flush();
+		  }
+		  int highscore = 0;
+		  String sc = br.readLine();
+		  if (Integer.valueOf(sc) instanceof Integer) {
+		  	highscore = Integer.valueOf(sc);
+
+		  	//System.out.println(highscore);
+		  }
+		  if (highscore < score) {
+		  	// FIX REPLACEING OLD INFORMATION, FILE WONT DELETE>??
+		  	scoref = new File("BasicSimulation/src/Score.txt");
+			bw = new BufferedWriter(writer);
+		  	bw.write(String.valueOf(score));
+		  	bw.flush();
+		  }
+		  bw.close();
+	  } catch (Exception e) {
+		  e.printStackTrace();
+	  }
 
 	wand.draw(graphToBack, positive, negative);
 	wand.drawCharged(graphToBack, objects.getList());

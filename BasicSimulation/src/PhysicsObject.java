@@ -142,11 +142,14 @@ public class PhysicsObject extends Shape{
 	}
 	
 	public void draw(Graphics window) {
+		updateShape(x, y, width, height);
 		window.setColor(color);
 		window.fillRect(x, y, width, height);
 		window.setColor(Color.BLACK);
-		DecimalFormat df = new DecimalFormat("#.##");
-		window.drawString(df.format(charge), x, y);
+		if (getColor() != Color.YELLOW) {
+			DecimalFormat df = new DecimalFormat("#.##");
+			window.drawString(df.format(charge), x, y);
+		}
 	}
 	
 	public void move(Graphics window) {

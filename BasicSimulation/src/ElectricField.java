@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.text.DecimalFormat;
 
 public class ElectricField extends PhysicsObject {
 
@@ -51,6 +52,9 @@ public class ElectricField extends PhysicsObject {
             window.drawLine(getX() + (getWidth() / 2), getY(), getX() + (getWidth() / 2), Simulation.HEIGHT);
             window.drawLine(getCX(), getY(), getCX(), Simulation.HEIGHT);
         }
+        window.setColor(Color.BLACK);
+        DecimalFormat df = new DecimalFormat("#.##");
+        window.drawString(df.format(magnitude), getX(), getY());
     }
 
 
