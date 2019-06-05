@@ -105,15 +105,20 @@ public class SimuInstance extends Canvas implements Runnable
 
 	for (PhysicsObject o : objects.getList()) {
 		boolean moving = false;
+		Vector force = new Vector(0, 0);
 		for (ElectricField e : fields) {
 			if (o.getCharge() != 0) {
-				Vector force = o.getForce();
+				boolean north = false;
+				boolean south = false;
+				boolean west = false;
+				boolean east = false;
 				if (e.getDirection().equals("NORTH")) {
 					if (o.getX() <= e.getCX() && o.getCX() >= e.getX() && o.getCY() <= e.getY()) {
 						force.setXR(force.getXR());
 						force.setYR(force.getYR() - e.getMagnitude() * o.getCharge());
 						//o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() - e.getMagnitude() * o.getCharge()));
 						moving = true;
+						north = true;
 					}
 				}
 				if (e.getDirection().equals("SOUTH")) {
@@ -123,6 +128,7 @@ public class SimuInstance extends Canvas implements Runnable
 						//System.out.println(force.getYR());
 						//o.setForce(new Vector(o.getForce().getXR(), o.getForce().getYR() + e.getMagnitude() * o.getCharge()));
 						moving = true;
+						south = true;
 					}
 				}
 				if (e.getDirection().equals("EAST")) {
@@ -131,6 +137,7 @@ public class SimuInstance extends Canvas implements Runnable
 						force.setYR(force.getYR());
 						//o.setForce(new Vector(o.getForce().getXR() + e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
 						moving = true;
+						east = true;
 					}
 				}
 				if (e.getDirection().equals("WEST")) {
@@ -139,15 +146,18 @@ public class SimuInstance extends Canvas implements Runnable
 						force.setYR(force.getYR());
 						//o.setForce(new Vector(o.getForce().getXR() - e.getMagnitude() * o.getCharge(), o.getForce().getYR()));
 						moving = true;
+						west = true;
 					}
 				}
-				o.setForce(force);
-				if (!moving) {
-					o.setForce(new Vector(0,0));
-				}
-				o.updateAcceleration();
 			}
 		}
+		if (moving) {
+			o.setForce(force);
+		}
+		if (!moving) {
+			o.setForce(new Vector(0,0));
+		}
+		o.updateAcceleration();
 	}
 
 	score+=hole.draw(graphToBack, objects.getList(), fields);
@@ -168,7 +178,7 @@ public class SimuInstance extends Canvas implements Runnable
 		  	//System.out.println(highscore);
 		  }
 		  if (highscore < score) {
-		  	// FIX REPLACEING OLD INFORMATION, FILE WONT DELETE>??
+		  	scoref.delete();
 		  	scoref = new File("BasicSimulation/src/Score.txt");
 			bw = new BufferedWriter(writer);
 		  	bw.write(String.valueOf(score));
@@ -202,6 +212,7 @@ public class SimuInstance extends Canvas implements Runnable
 	      	int mil = 30;
 	      	if (slow) {
 	      		mil = 120;
+	      		// ADD TIMING SYSTEM AND FIX SCORE!
 			}
 	        Thread.currentThread().sleep(mil);
 	        repaint();
