@@ -27,10 +27,23 @@ public class SimuInstance extends Canvas implements Runnable
 	private Hole hole;
 	private int score;
 	private File scoref;
+	private int timer;
+	private int mil;
+	private boolean status;
 
   public SimuInstance()
   {
+  	status = true;
+  	mil = 30;
+  	timer = 33 * 120;
   	  scoref = new File("BasicSimulation/src/Score.txt");
+  	  if (!scoref.exists()) {
+  	  	try {
+			scoref.createNewFile();
+		} catch (Exception e) {
+  	  		e.printStackTrace();
+		}
+	  }
   	  score = 0;
 	  ball = new PhysicsObject(150, 380, 50, 50, Color.BLUE, 100, new Vector(1, 1), new Vector(0, 0), 1, 50);
 	  ball.setColor(Color.BLUE);
@@ -158,33 +171,57 @@ public class SimuInstance extends Canvas implements Runnable
 			o.setForce(new Vector(0,0));
 		}
 		o.updateAcceleration();
+		if (!status) {
+			graphToBack.setColor(Color.RED);
+			graphToBack.drawString("GAME OVER!", 500, 500);
+		}
 	}
 
+	int scorebefore = score;
 	score+=hole.draw(graphToBack, objects.getList(), fields);
-	  try {
+	if (score > scorebefore) {
+		timer+=33 * 20;
+	}
+	int highscore = 0;
+	boolean cont = true;
+	try {
+
 	  	FileReader reader = new FileReader(scoref);
 	  	BufferedReader br = new BufferedReader(reader);
-		  FileWriter writer = new FileWriter(scoref);
-		  BufferedWriter bw = new BufferedWriter(writer);
-		  if (br.readLine() == null || br.readLine() == "") {
-		  	bw.write("0");
-		  	bw.flush();
-		  }
-		  int highscore = 0;
-		  String sc = br.readLine();
-		  if (Integer.valueOf(sc) instanceof Integer) {
-		  	highscore = Integer.valueOf(sc);
+	  	String sc = br.readLine();
+	  	if (sc == null) {
+	  		cont = false;
+			FileWriter writer = new FileWriter(scoref);
+			BufferedWriter bw = new BufferedWriter(writer);
+			if (sc == null || sc == "") {
+				bw.write("0");
+				bw.flush();
+				bw.close();
+			}
+		}
+	  	if (cont) {
+			if (Integer.valueOf(sc) instanceof Integer) {
+				highscore = Integer.valueOf(sc);
 
-		  	//System.out.println(highscore);
-		  }
-		  if (highscore < score) {
-		  	scoref.delete();
-		  	scoref = new File("BasicSimulation/src/Score.txt");
-			bw = new BufferedWriter(writer);
-		  	bw.write(String.valueOf(score));
-		  	bw.flush();
-		  }
-		  bw.close();
+				//System.out.println(highscore);
+			}
+			if (highscore < score) {
+				br.close();
+				scoref.delete();
+				scoref.createNewFile();
+				scoref = new File("BasicSimulation/src/Score.txt");
+				reader = new FileReader(scoref);
+				br = new BufferedReader(reader);
+				FileWriter writer = new FileWriter(scoref);
+				BufferedWriter bw = new BufferedWriter(writer);
+				bw.write(String.valueOf(score));
+				bw.flush();
+				bw.close();
+			}
+			br.close();
+		} else {
+	  		br.close();
+		}
 	  } catch (Exception e) {
 		  e.printStackTrace();
 	  }
@@ -193,7 +230,9 @@ public class SimuInstance extends Canvas implements Runnable
 	wand.drawCharged(graphToBack, objects.getList());
 
 	graphToBack.setColor(Color.BLACK);
+	graphToBack.drawString("HighScore: " + highscore, hole.getX(), hole.getY()-15);
 	graphToBack.drawString("Score: " + score, hole.getX(), hole.getY());
+	graphToBack.drawString("TIME LEFT: " + (timer / 33), hole.getX(), hole.getY()-30);
 
     twoDGraph.drawImage(back, null, 0, 0);
   }
@@ -207,13 +246,13 @@ public class SimuInstance extends Canvas implements Runnable
 	  {
 	    try
 	    {
-	      while(true)
+	      while(status)
 	      {
-	      	int mil = 30;
-	      	if (slow) {
-	      		mil = 120;
-	      		// ADD TIMING SYSTEM AND FIX SCORE!
+	      	timer--;
+	      	if (timer<=0) {
+	      		status = false;
 			}
+	      	int mil = 30;
 	        Thread.currentThread().sleep(mil);
 	        repaint();
 	      }
