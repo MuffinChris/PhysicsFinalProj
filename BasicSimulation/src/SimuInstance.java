@@ -18,6 +18,9 @@ public class SimuInstance extends Canvas implements Runnable
 	private static boolean slow;
 	private ElectricField testfield;
 	private ElectricField testfield2;
+	private ElectricField testfield3;
+	private ElectricField testfield4;
+	private ElectricField testfield5;
 	private Wand wand;
 	private ChargeLocation positive;
 	private ChargeLocation negative;
@@ -35,8 +38,11 @@ public class SimuInstance extends Canvas implements Runnable
 	  otherball.setColor(Color.RED);
 	  testfield = new ElectricField(600, 600, 200, 50, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 10, "NORTH", 1);
 	  testfield2 = new ElectricField(200, 100, 50, 300, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 11, "EAST", 1);
+	  testfield3 = new ElectricField(50, 450, 50, 100, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 11, "EAST", 1);
+	  testfield4 = new ElectricField(400, 600, 50, 100, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 11, "WEST", 1);
+	  testfield5 = new ElectricField(300, 300, 100, 50, Color.YELLOW, 0, new Vector(0, 0), new Vector(0, 0), 0, 11, "SOUTH", 1);
 
-	  hole = new Hole(1100, 600, 50, 50);
+	  hole = new Hole(1100, 600, 30, 30);
 
 	  objects = new PriorityList();
 	  objects.getList().add(ball);
@@ -46,6 +52,10 @@ public class SimuInstance extends Canvas implements Runnable
 	  fields = new ArrayList<ElectricField>();
 	  fields.add(testfield);
 	  fields.add(testfield2);
+	  fields.add(testfield3);
+	  fields.add(testfield4);
+	  fields.add(testfield5);
+
 
 	  positive = new ChargeLocation(500, 800, new Color(255, 107, 111));
 	  negative = new ChargeLocation(400, 800, new Color(48, 180, 175));
